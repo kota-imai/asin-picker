@@ -90,5 +90,10 @@ def execute(sellerid, loop, headless):
         print('csvファイルの書き込みに失敗しました。別のプログラムでファイルを開いています。')
     driver.quit()
 
+def remove_file(filekey):
+    import os
+    path = 'data/' + filekey + '.csv'
+    os.remove(path)
+
 # if __name__ == "__main__":
 #     execute(sellerid='A27252DAP8H3K8', loop=3, headless=False)

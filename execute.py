@@ -10,7 +10,6 @@ layout = [
 ]
 window = sg.Window('ASIN Picker for Storefront', layout)
 
-
 while True:
     INVALID_INPUT_MESSAGE = '出品者IDが不正です'
     CHROME_LAUNCHING = 'Google chromeを起動しています。'
@@ -23,7 +22,12 @@ while True:
         break
 
     if event == 'Go':
-        if len(values[0]) != 14:
+        if values[0] == 'A1VC38T7YXB528':
+            # marketplaceIDは弾く
+            sg.popup(INVALID_INPUT_MESSAGE, title='error')
+        elif len(values[0]) < 11 or len(values[0]) > 14:
+            sg.popup(INVALID_INPUT_MESSAGE, title='error')
+        elif str(values[0]).isalnum() == False:
             sg.popup(INVALID_INPUT_MESSAGE, title='error')
         else:
             sg.popup(CHROME_LAUNCHING, title='ASIN Picker For Storefront', auto_close=True)
@@ -35,7 +39,9 @@ while True:
                     loop_count = 10
                 scraper.execute(sellerid=values[0], loop=int(loop_count), headless=values[2])
             except:
+                scraper.remove_file(filekey=values[0])
                 sg.popup(CROLLER_FAILED)
+
 
             sg.popup(CROLLER_FINISHED)
             window.close()
